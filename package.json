@@ -1,0 +1,36 @@
+{
+  "name": "myblog",
+  "version": "1.0.0",
+  "description": "this is my blog",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DogJun/myblog.git"
+  },
+  "keywords": [
+    "blog",
+    "react",
+    "koa",
+    "mongodb",
+    "webpack",
+    "ssr"
+  ],
+  "author": "DogJun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DogJun/myblog/issues"
+  },
+  "homepage": "https://github.com/DogJun/myblog#readme",
+  "dependencies": {
+    "koa": "^2.5.3",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.3.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
