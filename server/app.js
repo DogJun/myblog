@@ -2,8 +2,12 @@ const Koa = require('koa')
 const Router = require('koa-router')
 const mongoose = require('mongoose')
 const bodyParser = require('koa-bodyparser')
-const db = mongoose.connect("mongodb://localhost/blog")
+const db = mongoose.connect("mongodb://localhost/myblog")
 
+/**
+ * debug 模式
+ */
+mongoose.set('debug', true)
 /**
  * 使用 Node 自带 Promise 代替 mongoose 的 Promise
  */
@@ -20,38 +24,54 @@ const ArticleSchema = new Schema({
   title: String,
   body: String,
   author: String
-}, {timaStamps: true})
+}, {timestamps: true})
 
 
-ArticleSchema.methods.toJSON = () => ({
-  _id: this._id,
-  title: this.title,
-  body: this.body,
-  author: this.author,
-  createdAt: this.createdAt,
-  updatedAt: this.updatedAt
-})
 
-mongoose.model('Articles', ArticlesSchema)
+ArticleSchema.methods.toJSON = function() {
+  return {
+    _id: this._id,
+    title: this.title,
+    body: this.body,
+    author: this.author,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt
+  };
+};
+
+mongoose.model('Articles', ArticleSchema)
 const Articles = mongoose.model('Articles')
-console.log(Articles)
-router.post('/', async (ctx, next) => {
+router.post('/add', async (ctx, next) => {
   const { body } = ctx.request
+  console.log(body)
   const finalArticle = new Articles(body)
-  return finalArticle.save()
-    .then(() => {
-      ctx.body = { 
-        article: finalArticle.toJSON() 
-      }
-    })
-    .catch(err) => {
-      console.log(err)
+  const articles = await finalArticle.save()
+  ctx.response.body = {
+    err: 0,
+    data: {
+      articles: articles.map(article => article.toJSON())
     }
-  ctx.body = {
-    success: true,
-    data: body
   }
 })
+router.get('/get', async (ctx, next) => {
+  const articles = await Articles.find()
+  console.log(articles.map(article => article.toJSON()))
+  ctx.response.body = {
+    err: 0,
+    data: {
+      articles: articles.map(article => article.toJSON())
+    }
+  }
+})
+
+router.post('/delete', async (ctx, next) => {
+  console.log(ctx.request.body)
+  const result = await Articles.findByIdAndRemove(ctx.request.body.id)
+  console.log(result)
+  ctx.response.body = {
+    err: 0 
+  }
+});
 app
   .use(router.routes())
   .use(router.allowedMethods())
