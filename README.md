@@ -1,2 +1,2 @@
-# myblog
-this is my blog
+# dogjun-vue-ssr-cli
+this is a vue ssr cli
