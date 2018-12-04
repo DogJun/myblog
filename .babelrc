@@ -1,7 +1,30 @@
 {
-	"presets": ["env"],
-	"plugins": [
-    "transform-object-rest-spread",
-    "dynamic-import-webpack"
-  ]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": [
+            "> 1%",
+            "last 2 versions",
+            "not ie <= 10"
+          ]
+        }
+      }
+    ]
+  ],
+  "comments": false,
+  "plugins": [
+    "@vue/babel-plugin-transform-vue-jsx",
+    "@babel/plugin-transform-runtime",
+    "dynamic-import-node",
+    "@babel/plugin-syntax-dynamic-import"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "@babel/preset-env"
+      ]
+    }
+  }
 }
