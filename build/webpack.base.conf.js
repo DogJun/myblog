@@ -1,8 +1,9 @@
 const path = require('path');
 const baseConfig = require('../config').base;
-const vueLoaderConfig = require('./vue-loader.conf.js');
+// const vueLoaderConfig = require('./vue-loader.conf.js');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const resolve = dir => path.join(__dirname, '..', dir);
 const assetsPath = dir => path.posix.join(baseConfig.assetsPath, dir);
@@ -28,7 +29,9 @@ module.exports = {
       widgets: resolve('src/widgets'),
       assets: resolve('src/assets'),
       views: resolve('src/views'),
-      store: resolve('src/store')
+      store: resolve('src/store'),
+      utils: resolve('src/utils'),
+      api: resolve('src/api')
     }
   },
   // 处理模块的规则(可在此处使用不同的loader来处理模块！)
@@ -36,13 +39,14 @@ module.exports = {
     rules: [
       {
         test: /\.js$/, // 资源路径
-        loader: 'babel-loader', // 该路径执行的loader
-        include: resolve('src') // 指定哪个文件loader
+        loader: 'babel-loader?cacheDirectory=true', // 该路径执行的loader
+        include: resolve('src'), // 指定哪个文件loader
+        exclude: /node_modules/
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueLoaderConfig
+        loader: 'vue-loader'
+        // options: vueLoaderConfig
       },
       {
         test: /\.(png|jpe?g|gif|svg|ico)(\?.*)?$/,
@@ -71,14 +75,11 @@ module.exports = {
     ]
   },
   plugins: [
-    // 抽离css
-    // new ExtractTextPlugin({
-    //   filename: assetsPath('css/[name].[hash:7].css')
+    new VueLoaderPlugin()
+    // new MiniCssExtractPlugin({
+    //   // Options similar to the same options in webpackOptions.output// both options are optional
+    //   filename: '/static/css/[name].[hash].css',
+    //   chunkFilename: '/static/css/[id].[chunkhash].css'
     // })
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output// both options are optional
-      filename: '/static/css/[name].[hash].css',
-      chunkFilename: '/static/css/[id].[chunkhash].css'
-    })
   ]
 };

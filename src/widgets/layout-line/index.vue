@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "line",
+  name: "layout-line",
   props: {
     title: {
       type: String

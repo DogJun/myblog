@@ -21,10 +21,16 @@ module.exports = merge(baseConfig, {
   entry: path.resolve(__dirname, '../src/entry-server.js'),
 
   module: {
-    rules: styleLoader.styleLoader({
-      extract: !isProd,
-      sourceMap: !isProd
-    })
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['vue-style-loader', 'css-loader', 'postcss-loader']
+      },
+      {
+        test: /\.postcss$/,
+        use: ['vue-style-loader', 'css-loader', 'postcss-loader']
+      }
+    ]
   },
 
   // 此处告知 server bundle 使用 Node 风格导出模块(Node-style exports)

@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const webpack = require('webpack');
-const styleLoader = require('./style-loader');
+// const styleLoader = require('./style-loader');
 const prodConf = require('../config').build; // 生产环境配置参数
 const baseConf = require('./webpack.base.conf'); // webpack基本配置
 
@@ -10,9 +10,9 @@ const merge = require('webpack-merge');
 // 一个创建html入口文件的webpack插件！
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 一个拷贝文件的webpack插件！
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // 资源路径
 const assetsPath = dir => path.posix.join(prodConf.assetsPath, dir);
 
@@ -26,17 +26,23 @@ const prod = merge({}, baseConf, {
     chunkFilename: assetsPath('js/[name].[chunkhash].js')
   },
   module: {
-    rules: styleLoader.styleLoader({
-      extract: true,
-      sourceMap: false
-    })
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['vue-style-loader', 'css-loader', 'postcss-loader']
+      },
+      {
+        test: /\.postcss$/,
+        use: ['vue-style-loader', 'css-loader', 'postcss-loader']
+      }
+    ]
   },
 
   optimization: {
     runtimeChunk: {
       name: 'manifest'
     },
-    minimizer: [new OptimizeCSSAssetsPlugin()], // [new UglifyJsPlugin({...})]
+    // minimizer: [new OptimizeCSSAssetsPlugin()], // [new UglifyJsPlugin({...})]
     splitChunks: {
       chunks: 'async', // 必须三选一： "initial" | "all"(默认就是all) | "async"
       minSize: 0, // 最小尺寸，默认0
@@ -85,13 +91,13 @@ const prod = merge({}, baseConf, {
     new webpack.HashedModuleIdsPlugin(),
 
     // 将整个文件复制到构建输出指定目录下
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: prodConf.assetsPath,
-        ignore: ['.*']
-      }
-    ]),
+    // new CopyWebpackPlugin([
+    //   {
+    //     from: path.resolve(__dirname, '../static'),
+    //     to: prodConf.assetsPath,
+    //     ignore: ['.*']
+    //   }
+    // ]),
 
     // html配置
     new HtmlWebpackPlugin({

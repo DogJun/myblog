@@ -1,4 +1,4 @@
-const fs = require('fs');
+// const fs = require('fs');
 const path = require('path');
 const MFS = require('memory-fs');
 const webpack = require('webpack');

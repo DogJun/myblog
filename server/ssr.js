@@ -21,7 +21,6 @@ const createRenderer = (serverBundle, clientManifest) =>
   });
 
 const renderData = (ctx, renderer) => {
-  console.log(ctx.url);
   const context = {
     url: ctx.url
   };
@@ -29,7 +28,6 @@ const renderData = (ctx, renderer) => {
   return new Promise((resolve, reject) => {
     renderer.renderToString(context, (err, html) => {
       if (err) {
-        console.log('error:' + err);
         return reject(err);
       }
       resolve(html);
@@ -39,21 +37,17 @@ const renderData = (ctx, renderer) => {
 
 export const ssr = async app => {
   let renderer;
-  console.log(isProduction);
   if (isProduction) {
     const [serverBundle, clientManifest] = await Promise.all([
       import('../dist/vue-ssr-server-bundle.json'),
       import('../dist/vue-ssr-client-manifest.json')
     ]);
     renderer = createRenderer(serverBundle, clientManifest);
-    console.log(renderer);
   } else {
     let setupDevServer = await import('../build/setup-dev-server.js');
-    // console.log(setupDevServer);
     setupDevServer(app, (serverBundle, clientManifest) => {
       console.log('bundle callback..');
       renderer = createRenderer(serverBundle, clientManifest);
-      console.log(11111, '\n\n\n' + renderer + '');
     });
     // require('../build/setup-dev-server.js')(app, (bundle, options) => {
     //   console.log('bundle callback..');
@@ -64,7 +58,6 @@ export const ssr = async app => {
 
   router.get('*', async (ctx, next) => {
     // 提示webpack还在工作
-    console.log(ctx.url, renderer, '222222222222222222222222');
     if (!renderer) {
       ctx.type = 'html';
       return (ctx.body = 'waiting for compilation... refresh in a moment.');
@@ -75,7 +68,6 @@ export const ssr = async app => {
     try {
       html = await renderData(ctx, renderer);
     } catch (error) {
-      console.log(error)
       if (error.code === 404) {
         status = 404;
         html = `404 Not Found`;

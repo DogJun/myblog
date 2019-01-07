@@ -10,6 +10,11 @@ export function createRouter() {
       {
         path: '/',
         component: () => import('views/Home/index.vue')
+      },
+      {
+        path: '/post/:id',
+        name: 'post',
+        component: () => import('views/Post/index.vue')
       }
     ]
   });

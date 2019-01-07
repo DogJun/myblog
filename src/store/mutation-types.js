@@ -1,0 +1,2 @@
+export const GET_ALL_ARTICLE = 'GET_ALL_ARTICLE'
+export const GET_ARTICLE = 'GET_ARTICLE'

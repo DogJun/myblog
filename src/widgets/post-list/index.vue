@@ -1,23 +1,21 @@
 <template>
   <ul class="posts-list">
-    <li>
-      <router-link class="title" to="/post">免费SSL证书升级全站HTTPS</router-link>
-      <span class="createTime">（October 2018）</span>
-    </li>
-    <li>
-      <router-link class="title" to="/post">免费SSL证书升级全站HTTPS</router-link>
-      <span class="createTime">（October 2018）</span>
-    </li>
-    <li>
-      <router-link class="title" to="/post">免费SSL证书升级全站HTTPS</router-link>
-      <span class="createTime">（October 2018）</span>
+    <li v-for="item in article" :key="item.id">
+      <router-link class="title" :to="'/post/' + item.id">{{item.title}}</router-link>
+      <span class="createTime">（{{item.lastEditTime}}）</span>
     </li>
   </ul> 
 </template>
 
 <script>
 export default {
-  name: 'posts-list'
+  name: 'posts-list',
+  props: {
+    article: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
 

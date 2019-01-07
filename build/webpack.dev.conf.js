@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const webpack = require('webpack');
-const styleLoader = require('./style-loader');
 const devConf = require('../config').dev; // 开发环境配置参数
 const baseConf = require('./webpack.base.conf'); // webpack基本配置
 const merge = require('webpack-merge');
@@ -11,22 +10,15 @@ const notifier = require('node-notifier');
 
 const dev = merge(baseConf, {
   mode: 'development',
-  // module: {
-  //   rules: styleLoader.styleLoader({ extract: false, sourceMap: true })
-  // },
   module: {
     rules: [
       {
         test: /\.css$/,
         use: ['vue-style-loader', 'css-loader', 'postcss-loader']
-        // 如果需要单独抽出CSS文件，用下面这个配置
-        // use: ExtractTextPlugin.extract({
-        //   fallback: 'vue-style-loader',
-        //   use: [
-        //     'css-loader',
-        //     'postcss-loader'
-        //   ]
-        // })
+      },
+      {
+        test: /\.postcss$/,
+        use: ['vue-style-loader', 'css-loader', 'postcss-loader']
       }
     ]
   },
