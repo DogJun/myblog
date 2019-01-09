@@ -38,7 +38,7 @@ export default {
     margin-bottom: 10px;
     text-align: center;
   }
-  & .post__time {
+  & .post__createTime {
     margin-bottom: 10px;
     color: gray;
     text-align: center;
