@@ -1,5 +1,5 @@
 {
-  "name": "blog",
+  "name": "myblog",
   "script": "./server/index.js",
   "log_date_format": "YYYY-MM-DD HH:mm Z",
   "out-file": "log/node-app.stdout.log",

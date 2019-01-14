@@ -32,4 +32,4 @@ after_success:
   - tar -jcf myblog.tar.bz2 *    # 打包并压缩代码
   - scp myblog.tar.bz2 root@119.29.90.205:/usr/share/nginx/  # 复制到生产服务器上
   - ssh root@119.29.90.205 'cd /usr/share/nginx/ && tar -jxf myblog.tar.bz2 -C myblog'   # 解压
-  - ssh root@119.29.90.205 'pm2 stop all && cd myblog && npm run prod'  # 重启pm2
+  - ssh root@119.29.90.205 'pm2 stop all && cd myblog && npm run pm2'  # 重启pm2
