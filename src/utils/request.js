@@ -3,7 +3,7 @@ import qs from 'qs'
 axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 if (process.env.NODE_ENV === 'production') {
-  axios.defaults.baseURL = 'http://www.dogjun.com/api'
+  axios.defaults.baseURL = 'https://www.dogjun.com/api'
 } else {
   axios.defaults.baseURL = 'http://localhost:3000/api'
 }

@@ -102,8 +102,8 @@ const prod = merge({}, baseConf, {
     // html配置
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: path.resolve(__dirname, '../src/index.html'),
-      // favicon: path.resolve(__dirname, '../static/favicon.ico'),
+      template: path.resolve(__dirname, '../src/public/index.html'),
+      favicon: path.resolve(__dirname, '../src/public/favicon.ico'),
       inject: true
       // 压缩配置
       // minify: {

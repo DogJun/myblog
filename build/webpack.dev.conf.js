@@ -37,7 +37,8 @@ const dev = merge(baseConf, {
     // 配置html入口信息
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: path.resolve(__dirname, '../src/index.html'),
+      template: path.resolve(__dirname, '../src/public/index.html'),
+      favicon: path.resolve(__dirname, '../src/public/favicon.ico'),
       inject: true
     }),
 
